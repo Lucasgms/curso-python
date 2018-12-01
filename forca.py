@@ -2,8 +2,8 @@ import random
 
 
 def jogar():
-    imprime_mensagem_inicial()
 
+    imprime_mensagem_inicial()
     palavra_secreta = buscar_palavra_secreta()
     letras_corretas = inicializa_letras_corretas(palavra_secreta)
 
@@ -21,18 +21,17 @@ def jogar():
             letras_corretas = monta_palavra_correta(chute, palavra_secreta, letras_corretas)
         else:
             erros += 1
-            print("Ops, você errou! Faltam {} tentativas.".format(6-erros))
+            desenha_forca(erros)
 
-        enforcou = erros == 6
+        enforcou = erros == 7
         acertou = "_" not in letras_corretas
-        index = index + 1
 
         print(letras_corretas)
 
     if acertou:
-        print("Você ganhou!")
+        imprime_mensagem_vencedor()
     else:
-        print("Você perdeu!")
+        imprime_mensagem_perdedor(palavra_secreta)
 
     print("Fim do jogo!")
 
@@ -53,14 +52,14 @@ def buscar_palavra_secreta():
 
     arquivo.close()
 
-    numero_aleatorio = random.randrange(0, len(arquivo))
+    numero_aleatorio = random.randrange(0, len(palavras))
     palavra_secreta = palavras[numero_aleatorio].upper()
 
     return palavra_secreta
 
 
 def inicializa_letras_corretas(palavra):
-    return ["for" for letra in palavra]
+    return ["_" for letra in palavra]
 
 
 def solicita_chute():
@@ -69,7 +68,7 @@ def solicita_chute():
     return chute
 
 
-def monta_palavra_correta(palavra, chute, letras_corretas):
+def monta_palavra_correta(chute, palavra, letras_corretas):
     index = 0
 
     for letra in palavra:
@@ -78,6 +77,92 @@ def monta_palavra_correta(palavra, chute, letras_corretas):
         index += 1
 
     return letras_corretas
+
+
+def imprime_mensagem_vencedor():
+    print("Parabéns, você ganhou!")
+    print("       ___________      ")
+    print("      '._==_==_=_.'     ")
+    print("      .-\\:      /-.    ")
+    print("     | (|:.     |) |    ")
+    print("      '-|:.     |-'     ")
+    print("        \\::.    /      ")
+    print("         '::. .'        ")
+    print("           ) (          ")
+    print("         _.' '._        ")
+    print("        '-------'       ")
+
+
+def imprime_mensagem_perdedor(palavra_secreta):
+    print("Puxa, você foi enforcado!")
+    print("A palavra era {}".format(palavra_secreta))
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/           ")
+
+
+def desenha_forca(erros):
+    print("  _______     ")
+    print(" |/      |    ")
+
+    if(erros == 1):
+        print(" |      (_)   ")
+        print(" |            ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 2):
+        print(" |      (_)   ")
+        print(" |      \     ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 3):
+        print(" |      (_)   ")
+        print(" |      \|    ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 4):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |            ")
+        print(" |            ")
+
+    if(erros == 5):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |            ")
+
+    if(erros == 6):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      /     ")
+
+    if (erros == 7):
+        print(" |      (_)   ")
+        print(" |      \|/   ")
+        print(" |       |    ")
+        print(" |      / \   ")
+
+    print(" |            ")
+    print("_|___         ")
+    print()
 
 
 if __name__ == "__main__":
