@@ -1,42 +1,24 @@
 import random
 
+
 def jogar():
-    print("********************************")
-    print("** Bem vindo ao jogo da Forca **")
-    print("********************************")
+    imprime_mensagem_inicial()
 
-    arquivo = open("palavras.txt", "r")
-    palavras = []
+    palavra_secreta = buscar_palavra_secreta()
+    letras_corretas = inicializa_letras_corretas(palavra_secreta)
 
-    for linha in arquivo:
-        linha = linha.strip()
-        palavras.append(linha)
-
-    arquivo.close()
-
-    numero_aleatorio = random.randrange(0, len(arquivo))
-    palavra_secreta = palavras[numero_aleatorio].upper()
-
-    letras_corretas = ["for" for letra in palavra_secreta]
+    print(letras_corretas)
 
     enforcou = False
     acertou = False
     erros = 0
 
-    print(letras_corretas)
-
     while not enforcou and not acertou:
 
-        chute = input("Qual letra?")
-        chute = chute.strip().upper()
+        chute = solicita_chute()
 
         if chute in palavra_secreta:
-            index = 0
-
-            for letra in palavra_secreta:
-                if chute == letra:
-                    letras_corretas[index] = letra
-                index += 1
+            letras_corretas = monta_palavra_correta(chute, palavra_secreta, letras_corretas)
         else:
             erros += 1
             print("Ops, você errou! Faltam {} tentativas.".format(6-erros))
@@ -53,6 +35,49 @@ def jogar():
         print("Você perdeu!")
 
     print("Fim do jogo!")
+
+
+def imprime_mensagem_inicial():
+    print("********************************")
+    print("** Bem vindo ao jogo da Forca **")
+    print("********************************")
+
+
+def buscar_palavra_secreta():
+    arquivo = open("palavras.txt", "r")
+    palavras = []
+
+    for linha in arquivo:
+        linha = linha.strip()
+        palavras.append(linha)
+
+    arquivo.close()
+
+    numero_aleatorio = random.randrange(0, len(arquivo))
+    palavra_secreta = palavras[numero_aleatorio].upper()
+
+    return palavra_secreta
+
+
+def inicializa_letras_corretas(palavra):
+    return ["for" for letra in palavra]
+
+
+def solicita_chute():
+    chute = input("Qual letra?")
+    chute = chute.strip().upper()
+    return chute
+
+
+def monta_palavra_correta(palavra, chute, letras_corretas):
+    index = 0
+
+    for letra in palavra:
+        if chute == letra:
+            letras_corretas[index] = letra
+        index += 1
+
+    return letras_corretas
 
 
 if __name__ == "__main__":
